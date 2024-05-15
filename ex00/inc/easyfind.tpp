@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdexcept>
+
 template <typename T>
 int easyfind(const T &array, int tofind)
 {

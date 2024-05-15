@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 21:48:37 by dacortes          #+#    #+#             */
-/*   Updated: 2024/05/11 22:47:24 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/05/15 10:00:21 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,13 @@
 /******************************************************************************/
 
 # include <cstdlib>
-# include <exception>
 # include <algorithm>
+#ifndef IS_LINUX
+# include <exception>
+#endif
+#ifdef IS_LINUX 
+# include <stdexcept>
+#endif
 
 /******************************************************************************/
 /*                            MACROS                                          */

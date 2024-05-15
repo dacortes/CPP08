@@ -16,6 +16,7 @@
 
 NAME = EasyFind
 CPP = c++
+OS := $(shell uname -s)
 FLAGS = -Wall -Werror -Wextra -g -pedantic -std=c++98 \
 	#-fsanitize=address
 RM = rm -rf
@@ -26,6 +27,12 @@ RM = rm -rf
 
 SRC = main.cpp
 INC = $(addprefix -I , inc/)
+
+ifeq ($(OS), Linux)
+	SYSTEM = -D IS_LINUX=1
+else
+	SYSTEM = -D IS_LINUX=0
+endif
 
 ################################################################################
 #                               DIRECTORIES                                    #
@@ -69,7 +76,7 @@ dir:
 	-mkdir $(D_OBJ)
 
 $(D_OBJ)/%.o:$(D_SRC)/%.cpp Makefile
-	$(CPP) $(FLAGS) -MMD -c $< -o $@ $(INC)
+	$(CPP) $(FLAGS) $(SYSTEM) -MMD -c $< -o $@ $(INC)
 	printf "\r$(ligth)$(B)file:$(E) $(ligth)$< $(B)to$(E) $(ligth)$@$(E)       "
 
 $(NAME): $(OBJ) 
