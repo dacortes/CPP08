@@ -1,35 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   easyfind.hpp                                       :+:      :+:    :+:   */
+/*   Span.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/11 21:48:37 by dacortes          #+#    #+#             */
-/*   Updated: 2024/05/15 10:02:22 by dacortes         ###   ########.fr       */
+/*   Created: 2024/05/15 10:08:18 by dacortes          #+#    #+#             */
+/*   Updated: 2024/05/15 10:28:31 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#ifndef ESAYFIND_HPP
-# define ESAYFIND_HPP
 
 /******************************************************************************/
 /*                            INCLUDES                                        */
 /******************************************************************************/
 
+# include <set>
+# include <cerrno>
+# include <string>
 # include <cstdlib>
-# include <algorithm>
-#ifndef IS_LINUX
-# include <exception>
-#endif
-#ifdef IS_LINUX 
-# include <stdexcept>
-#endif
-
-/******************************************************************************/
-/*                            MACROS                                          */
-/******************************************************************************/
-# define ERROR_NOT_INT "\033[1m\033[1;31mError: \033[m Integer not found"
+# include <iostream>
+# include <iterator>
+# include <stdint.h>
 
 /******************************************************************************/
 /*                            COLORS                                          */
@@ -46,13 +37,28 @@
 # define PURPLE "\033[1m\033[38;5;128m"  //purple
 
 /******************************************************************************/
-/*                            TEMPLATE                                        */
+/*                            CLASS                                           */
 /******************************************************************************/
 
-template <typename T>
-int easyfind(const T &array, int tofind);
-template <typename T>
-void	pushBackTemplate(T &myvector, int start, int end);
-
-#include "easyfind.tpp"
-#endif
+class Span
+{
+	private:
+		std::multiset<int>	_array;
+		unsigned int		_maxSize;
+	public:
+		/*
+		 * Orthodox Canonical Form
+		*/
+		Span(void);
+		Span(const Span& obj);
+		Span &operator=(const Span& obj);
+		~Span(void);
+		/*
+		 * Get Methods
+		*/
+		int getNumber(void);
+		/*
+		 * Member funtions
+		*/
+		void	addNumber(const int add);
+};
