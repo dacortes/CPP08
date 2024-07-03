@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Span.cpp                                           :+:      :+:    :+:   */
+/*   Span.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42barcel>       +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:08:18 by dacortes          #+#    #+#             */
-/*   Updated: 2024/05/15 10:28:31 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/03 08:59:18 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ class Span
 		/*
 		 * Get Methods
 		*/
-		int getNumber(void);
+		const int getNumber(void) const;
 		/*
 		 * Member funtions
 		*/

@@ -1,59 +1,31 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: dacortes <dacortes@student.42barcel>       +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/05/08 17:18:00 by dacortes          #+#    #+#              #
-#
-#                                                                              #
-# **************************************************************************** #
-
 ################################################################################
 #                               VARIABLES                                      #
 ################################################################################
 
+RMV = rm -rf
+CPP = c++ 
+CFLAGS = -Wall -Werror -Wextra -g -pedantic -std=c++98 #-fsanitize=address
 NAME = Span 
-CPP = c++
-OS := $(shell uname -s)
-FLAGS = -Wall -Werror -Wextra -g -pedantic -std=c++98 \
-	#-fsanitize=address
-RM = rm -rf
+TOTAL_FILES = $(words $(SOURCES))
 
-################################################################################
-#                               SOURCES                                        #
-################################################################################
-
-SRC = main.cpp
-INC = $(addprefix -I , inc/)
-
-ifeq ($(OS), Linux)
-	SYSTEM = -D IS_LINUX=1
-else
-	SYSTEM = -D IS_LINUX=0
-endif
-
-################################################################################
-#                               DIRECTORIES                                    #
-################################################################################
-
-D_SRC = src
-D_OBJ = $(D_SRC)/obj
-OBJ = $(addprefix $(D_OBJ)/, $(SRC:.cpp=.o))
-DEP = $(addprefix $(D_OBJ)/, $(SRC:.cpp=.d))
+DIRECTORIES_UTILS = obj
+DIRECTORI_SOURCE = src
+OBJECTS = $(addprefix $(DIRECTORIES_UTILS)/, $(SOURCES:.cpp=.o))
+DEPENDENCIES = $(addprefix $(DIRECTORIES_UTILS)/, $(SOURCES:.cpp=.d))
+INCLUDES = $(addprefix -I, inc)
+SOURCES = main.cpp
 
 ################################################################################
 #                               BOLD COLORS                                    #
 ################################################################################
 
-E = \033[m
-R = \033[31m
-G = \033[32m
-Y = \033[33m
-B = \033[34m
-P = \033[35m
-C = \033[36m
+END = \033[m
+RED = \033[31m
+GREEN = \033[32m
+YELLOW = \033[33m
+BLUE = \033[34m
+PURPLE = \033[35m
+CIAN = \033[36m
 
 ################################################################################
 #  FONT                                                                        #
@@ -67,35 +39,52 @@ italic = \033[3m
 #                               MAKE RULES                                     #
 ################################################################################
 
-all: dir $(NAME)
+all: dir progress
 
--include $(DEP)
+print:
+	@echo $(DIRECTORIES_UTILS) 
+$(NAME): $(OBJECTS)
+	$(CPP) $(CFLAGS) $(INCLUDES) $(OBJECTS) -o $(NAME)
+	@echo "\n✅ ==== $(BLUE)$(ligth)Project $(NAME) compiled!$(END) ==== ✅"
+
+$(DIRECTORIES_UTILS)/%.o:$(DIRECTORI_SOURCE)/%.cpp
+	@printf "  $(ligth)Compiling $(BLUE)$<$(END)      "
+	@$(CPP) $(CFLAGS) -MMD -c $< -o $@
+	@$(call progress,$<)
 
 dir:
-	echo "$(D_OBJ)"
-	-mkdir $(D_OBJ)
-
-$(D_OBJ)/%.o:$(D_SRC)/%.cpp Makefile
-	$(CPP) $(FLAGS) $(SYSTEM) -MMD -c $< -o $@ $(INC)
-	printf "\r$(ligth)$(B)file:$(E) $(ligth)$< $(B)to$(E) $(ligth)$@$(E)       "
-
-$(NAME): $(OBJ) 
-	$(CPP) $(FLAGS) $(INC) $(OBJ) -o $(NAME)
-	echo "\n$(B)$(ligth)Project $(NAME) compiled!$(E)      "
+	-mkdir -p $(DIRECTORIES_UTILS)
+progress: $(OBJECTS) $(NAME)
 
 ################################################################################
 #                               CLEAN                                          #
 ################################################################################
 
 clean:
-	$(RM) $(D_OBJ)
-	echo "$(ligth)->$(B)$(NAME) object files cleaned!$(E)"
+	$(RMV) $(OBJECTS) $(DIRECTORIES_UTILS) $(NAME)
+	echo "✅ ==== $(PURPLE)$(ligth)$(NAME) object files cleaned!$(END) ==== ✅"
 
 fclean: clean
-	$(RM) $(NAME)
-	echo "$(ligth)->$(B)$(NAME) executable files and name cleaned!$(E)"
+	$(RMV) $(NAME)
+	echo "✅ ==== $(PURPLE)$(ligth)$(NAME) executable files and name cleaned!$(END) ==== ✅"
+
+define progress
+	@$(eval COMPILED_FILES=$(shell expr $(COMPILED_FILES) + 1))
+	@bash -c 'PROG_BAR_WIDTH=50; \
+	PROGRESS=$$(($(COMPILED_FILES) * $$PROG_BAR_WIDTH / $(TOTAL_FILES))); \
+	EMPTY=$$(($$PROG_BAR_WIDTH - $$PROGRESS)); \
+	PROGRESS=$$((PROGRESS < 0 ? 0 : PROGRESS)); \
+	EMPTY=$$((EMPTY < 0 ? 0 : EMPTY)); \
+	printf "\r$(ligth)[$(GREEN)"; \
+	for ((i = 0; i < $$PROGRESS; i++)); do echo -n "█"; done; \
+	for ((i = 0; i < $$EMPTY; i++)); do echo -n " "; done; \
+	printf "$(END)$(ligth)] "; \
+	printf "%d%%$(END)" $$((100 * $(COMPILED_FILES) / $(TOTAL_FILES)));'
+endef
+
+-include $(DEPENDENCIES)
 
 re: fclean all
-
+.PHONY: all clean progress fclean
+COMPILED_FILES=0
 .SILENT:
-.PHONY: all clean fclean re dir
