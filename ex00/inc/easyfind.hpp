@@ -19,12 +19,7 @@
 
 # include <cstdlib>
 # include <algorithm>
-#ifndef IS_LINUX
-# include <exception>
-#endif
-#ifdef IS_LINUX 
 # include <stdexcept>
-#endif
 
 /******************************************************************************/
 /*                            MACROS                                          */
