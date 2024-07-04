@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:08:18 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/03 08:59:18 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/03 12:24:25 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@
 /*                            CLASS                                           */
 /******************************************************************************/
 
+# define ERROR_INDEX "\033[1m\033[1;31mError:\033[m Invalid  Index\n"
+
 class Span
 {
 	private:
@@ -51,14 +53,32 @@ class Span
 		*/
 		Span(void);
 		Span(const Span& obj);
+		Span(unsigned int N);
 		Span &operator=(const Span& obj);
 		~Span(void);
 		/*
 		 * Get Methods
 		*/
-		const int getNumber(void) const;
+		const unsigned int getNumber(unsigned int search) const;
 		/*
 		 * Member funtions
 		*/
 		void	addNumber(const int add);
+		void	shortesSpan(void) const;
+		void	longestSpan(void) const;
+		/*
+			Class Exception
+		*/
+		class SpanException: public std::exception
+		{
+			private:
+				std::string	_msgError;
+			public:
+				SpanException(std::string msgError): _msgError(msgError){}
+				virtual const char *what() const throw()
+				{
+					return (_msgError);
+				}
+				~SpanException(void) throw(){}
+		}
 };
