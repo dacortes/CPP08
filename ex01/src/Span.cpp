@@ -41,7 +41,7 @@ const unsigned int Span::getNumber(unsigned int pos) const
 {
 	if (pos >= this->_array.size())
 		throw Span::SpanException(ERROR_INDEX);
-	std::multiset<int>::const_iterator iter = this->_array.begin();
+	std::vector<int>::const_iterator iter = this->_array.begin();
 	for (unsigned int i = 0; i < this->_array.size(); i++)
 	{
 		if (i == pos)
@@ -53,9 +53,21 @@ const unsigned int Span::getNumber(unsigned int pos) const
 /*
 	Member funtions
 */
-void Span::addNumber(const int add)
+void Span::addNumber(int add)
 {
 	if ((this->_array.size() + 1) > this->_maxSize)
 		throw Span::SpanException(ERROR_IS_FULL);
 	this->_array.insert(add);
+}
+
+void Span::shortestSpan(void) const
+{
+	if (this->_array.size() < 2)
+		throw Span::SpanException(ERROR_NOT_ELEMENTS);
+}
+
+void Span::longestSpan(void) const
+{
+	if (this->_array.size() < 2)
+		throw Span::SpanException(ERROR_NOT_ELEMENTS);
 }

@@ -21,6 +21,7 @@
 # include <iostream>
 # include <iterator>
 # include <stdint.h>
+# include <vector>
 
 /******************************************************************************/
 /*                            COLORS                                          */
@@ -41,12 +42,13 @@
 /******************************************************************************/
 
 # define ERROR_INDEX "\033[1m\033[1;31mError:\033[m Invalid  Index.\n"
-# define ERROR_IS_FULL "\033[1m\033[1;31mError:\033[m Container is full.\n"
+# define ERROR_IS_FULL "\033[1m\033[1;31mError:\033[m Span is already full.\n"
+# define ERROR_NOT_ELEMENTS "\033[1m\033[1;31mError:\033[m Not enough elements to calculate span."
 
 class Span
 {
 	private:
-		std::multiset<int>	_array;
+		std::vector<int>	_array;
 		unsigned int		_maxSize;
 	public:
 		/*
@@ -64,8 +66,8 @@ class Span
 		/*
 		 * Member funtions
 		*/
-		void	addNumber(const int add);
-		void	shortesSpan(void) const;
+		void	addNumber(int add);
+		void	shortestSpan(void) const;
 		void	longestSpan(void) const;
 		/*
 			Class Exception
