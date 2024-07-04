@@ -30,19 +30,24 @@ Span::Span(unsigned int N)
 Span &Span::operator=(const Span &obj)
 {
 	this->_array = obj._array;
-	this->_maxSize = onj._maxSize;
+	this->_maxSize = obj._maxSize;
 	return (*this);
 }
 
 /* 
 	Get Methods
 */
-unsigned int Span::getNumber(unsigned int search) const
+const unsigned int Span::getNumber(unsigned int pos) const
 {
-	if (search >= this->_array.size())
-		throw Span::SpanException(ERROR_INNDEX);
-	std::multiset<int>::const_iterator iter = _array.find(search);
-	return (*iter);
+	if (pos >= this->_array.size())
+		throw Span::SpanException(ERROR_INDEX);
+	std::multiset<int>::const_iterator iter = this->_array.begin();
+	for (unsigned int i = 0; i < this->_array.size(); i++)
+	{
+		if (i == pos)
+			return (*iter);
+	}
+	return (0);
 }
 
 /*
@@ -50,4 +55,7 @@ unsigned int Span::getNumber(unsigned int search) const
 */
 void Span::addNumber(const int add)
 {
+	if ((this->_array.size() + 1) > this->_maxSize)
+		throw Span::SpanException(ERROR_IS_FULL);
+	this->_array.insert(add);
 }

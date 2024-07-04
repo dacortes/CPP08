@@ -40,7 +40,8 @@
 /*                            CLASS                                           */
 /******************************************************************************/
 
-# define ERROR_INDEX "\033[1m\033[1;31mError:\033[m Invalid  Index\n"
+# define ERROR_INDEX "\033[1m\033[1;31mError:\033[m Invalid  Index.\n"
+# define ERROR_IS_FULL "\033[1m\033[1;31mError:\033[m Container is full.\n"
 
 class Span
 {
@@ -77,8 +78,8 @@ class Span
 				SpanException(std::string msgError): _msgError(msgError){}
 				virtual const char *what() const throw()
 				{
-					return (_msgError);
+					return (_msgError.c_str());
 				}
 				~SpanException(void) throw(){}
-		}
+		};
 };
