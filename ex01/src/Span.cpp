@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Span.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:18:50 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/03 12:28:37 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/06 10:18:40 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ Span::Span(const Span &obj)
 
 Span::Span(unsigned int N)
 {
+	(void)N;
 }
 
 Span &Span::operator=(const Span &obj)
@@ -41,13 +42,7 @@ const unsigned int Span::getNumber(unsigned int pos) const
 {
 	if (pos >= this->_array.size())
 		throw Span::SpanException(ERROR_INDEX);
-	std::vector<int>::const_iterator iter = this->_array.begin();
-	for (unsigned int i = 0; i < this->_array.size(); i++)
-	{
-		if (i == pos)
-			return (*iter);
-	}
-	return (0);
+	return (this->_array[pos]);
 }
 
 /*

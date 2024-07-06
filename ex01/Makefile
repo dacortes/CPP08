@@ -13,7 +13,7 @@ DIRECTORI_SOURCE = src
 OBJECTS = $(addprefix $(DIRECTORIES_UTILS)/, $(SOURCES:.cpp=.o))
 DEPENDENCIES = $(addprefix $(DIRECTORIES_UTILS)/, $(SOURCES:.cpp=.d))
 INCLUDES = $(addprefix -I, inc)
-SOURCES = main.cpp
+SOURCES = main.cpp Span.cpp
 
 ################################################################################
 #                               BOLD COLORS                                    #
@@ -49,7 +49,7 @@ $(NAME): $(OBJECTS)
 
 $(DIRECTORIES_UTILS)/%.o:$(DIRECTORI_SOURCE)/%.cpp
 	@printf "  $(ligth)Compiling $(BLUE)$<$(END)      "
-	@$(CPP) $(CFLAGS) -MMD -c $< -o $@
+	@$(CPP) $(CFLAGS) $(INCLUDES) -MMD -c $< -o $@
 	@$(call progress,$<)
 
 dir:
