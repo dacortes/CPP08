@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   Span.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:08:18 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/03 12:24:25 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/09 16:30:55 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef SPAN_HPP 
+# define SPAN_HPP
 
 /******************************************************************************/
 /*                            INCLUDES                                        */
 /******************************************************************************/
 
-# include <set>
 # include <cerrno>
 # include <string>
 # include <cstdlib>
@@ -22,6 +24,9 @@
 # include <iterator>
 # include <stdint.h>
 # include <vector>
+# include <time.h>
+# include <limits>
+# include <bits/stl_algo.h>
 
 /******************************************************************************/
 /*                            COLORS                                          */
@@ -43,7 +48,7 @@
 
 # define ERROR_INDEX "\033[1m\033[1;31mError:\033[m Invalid  Index.\n"
 # define ERROR_IS_FULL "\033[1m\033[1;31mError:\033[m Span is already full.\n"
-# define ERROR_NOT_ELEMENTS "\033[1m\033[1;31mError:\033[m Not enough elements to calculate span."
+# define ERROR_NOT_ELEMENTS "\033[1m\033[1;31mError:\033[m Not enough elements to calculate span.\n"
 
 class Span
 {
@@ -58,17 +63,25 @@ class Span
 		Span(const Span& obj);
 		Span(unsigned int N);
 		Span &operator=(const Span& obj);
-		~Span(void);
+		~Span(void){};
 		/*
 		 * Get Methods
 		*/
-		const unsigned int getNumber(unsigned int search) const;
+		unsigned int getNumber(unsigned int search) const;
+		unsigned int getMaxSize(void) const {return (_maxSize);};
 		/*
 		 * Member funtions
 		*/
 		void	addNumber(int add);
-		void	shortestSpan(void) const;
-		void	longestSpan(void) const;
+		long	shortestSpan(void) const;
+		long	longestSpan(void) const;
+		template <typename T>
+		void	addNumber(const typename T::iterator &begin, const typename T::iterator &end)
+		{
+			if ((std::distance(begin, end) + this->_array.size()) > this->_maxSize)
+				throw Span::SpanException(ERROR_IS_FULL);
+			this->_array.insert(begin, end);
+		};
 		/*
 			Class Exception
 		*/
@@ -85,3 +98,5 @@ class Span
 				~SpanException(void) throw(){}
 		};
 };
+std::ostream &operator<<(std::ostream &os, const Span &obj);
+#endif
