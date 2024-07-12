@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:08:18 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/09 16:30:55 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/12 10:10:59 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 /*                            INCLUDES                                        */
 /******************************************************************************/
 
+# include <set>
 # include <cerrno>
 # include <string>
 # include <cstdlib>
@@ -53,7 +54,7 @@
 class Span
 {
 	private:
-		std::vector<int>	_array;
+		std::multiset<int>	_array;
 		unsigned int		_maxSize;
 	public:
 		/*

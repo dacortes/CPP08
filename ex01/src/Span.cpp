@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:18:50 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/09 16:13:42 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/12 10:16:25 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,14 @@ unsigned int Span::getNumber(unsigned int pos) const
 {
 	if (pos >= this->_array.size())
 		throw Span::SpanException(ERROR_INDEX);
-	return (this->_array[pos]);
+	std::multiset<int>::const_iterator iter = _array.begin();
+	for (unsigned int i = 0; i < _array.size(); i++)
+	{
+		if (i == pos)
+			return (*iter);
+		*iter++;
+	}
+	return (0);
 }
 
 /*
@@ -54,7 +61,7 @@ void Span::addNumber(int add)
 {
 	if ((this->_array.size() + 1) > this->_maxSize)
 		throw Span::SpanException(ERROR_IS_FULL);
-	this->_array.push_back(add);
+	this->_array.insert(add);
 }
 
 long Span::shortestSpan(void) const
@@ -63,7 +70,7 @@ long Span::shortestSpan(void) const
 		throw Span::SpanException(ERROR_NOT_ELEMENTS);
 	long min = std::numeric_limits<unsigned int>::max();
 	long last = 0;
-	for (std::vector<int>::const_iterator iter = this->_array.begin();
+	for (std::multiset<int>::const_iterator iter = this->_array.begin();
 		iter != this->_array.end(); iter++)
 	{
 		if (iter != this->_array.begin() and std::abs(*iter - last) < min)
